@@ -20,14 +20,15 @@ nodeCleanup(function (exitCode, signal) {
 // ENVIRONMENT VARS
 //
 // MQTT vars
-var MQTT_FULL_URL = process.env.MQTT_FULL_URL || 'mqtts://localhost:1883';
+var MQTT_FULL_URL = process.env.MQTT_FULL_URL || 'mqtt://sammy:password@35.190.136.157:1883';
 var MQTT_CLIENT_PREFIX = process.env.MQTT_CLIENT_PREFIX || 'iota_poc_';
 var MQTT_TOPIC = process.env.MQTT_TOPIC || '/devices/+';
 // IOTA vars
-var IOTA_HOST = process.env.IOTA_HOST || 'http://85.93.93.110';
-var IOTA_PORT = process.env.IOTA_PORT || 14265;
-var IOTA_ADDRESS = process.env.IOTA_ADDRESS || 'LRHDQ9EXZZFBZUCIDIQKXQFRPFPLMGYSAXEFAJJJJFHYMWGVDEQXVSFWNKBDYOZOLRSJWUG9SUDLLOVZGLYVJGFGZN';
-var IOTA_SEED = process.env.IOTA_SEED || '999999999999999999999999999999999999999999999999999999999999999999999999999999999';
+var IOTA_HOST = process.env.IOTA_HOST || 'http://35.185.10.245';
+var IOTA_PORT = process.env.IOTA_PORT || 14600;
+// GENERATED FROM SEED:VCVVFZORNQVEBBIIVXIRQXZNENGCKYQGEIMIXLFEFASLSZ9RY9CMFJXVNGX9SMTPXQPZBHPCPLFOSOZKS
+var IOTA_ADDRESS = process.env.IOTA_ADDRESS || 'CXLYHJMSQJOCGVHL9KZWQNEOGQXC9MIFRHGDJFI9NCKKCNJLERCNBRLQSUIIOLCGSLKBOTAAAXLVBTON9';
+var IOTA_SEED = process.env.IOTA_SEED || 'OWZYQOZSPUKCQYMLSVFPLU9VYTGSYILPFSKZHZCLLSALTEDMQOJVJHXJPLTDJHGXQRYVDTTOVKNOWKIQI';
 var IOTA_TAG = process.env.IOTA_TAG || 'iota-mqtt-poc';
 //
 // END ENVIRONMENT VARS
@@ -98,7 +99,7 @@ client.on('connect', function () {
             client.on('message', mqttOnMessageEventHandler);
             console.log("Starting service.");
              /// Uncomment for debugging:
-             // client.publish('/devices/AB01', '{"temp":11.11}');
+            client.publish('/devices/AB01', '{"temp":11.11}');
          }
      })
 });
@@ -128,7 +129,7 @@ var txQueue = async.queue(function(task, done) {
     }];
     var seed = IOTA_SEED;
     var depth = 9;
-    var minWeightMagnitude = 18;
+    var minWeightMagnitude = 15;
 
     iotajs.api.sendTransfer(seed, depth, minWeightMagnitude, transfers, function(error,success) {
         if (!error) {
